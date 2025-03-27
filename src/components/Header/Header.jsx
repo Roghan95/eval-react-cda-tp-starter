@@ -2,35 +2,30 @@ import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import styles from "./Header.module.css";
 import logo from "../../assets/logo.png";
+import Button from "../Button/Button";
+import { AuthService } from "../../services/auth";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+  const authService = new AuthService();
 
-  // Vérifier si l'utilisateur est connecté au chargement du composant
   useEffect(() => {
-    const token = localStorage.getItem("userToken");
-    if (token) {
-      setIsLoggedIn(true);
-    }
+    // Check authentication status when component mounts
+    setIsLoggedIn(authService.isAuthenticated());
   }, []);
 
-  // Fonction de connexion
-  const handleLogin = () => {
-    localStorage.setItem("userToken", "example-token");
-    setIsLoggedIn(true);
-    navigate("/");
-  };
-
-  // Fonction de déconnexion
   const handleLogout = () => {
-    localStorage.removeItem("userToken");
+    authService.logout();
     setIsLoggedIn(false);
     navigate("/");
   };
 
-  // Fonction de redirection vers la page d'inscription
-  const handleRegister = () => {
+  const handleLoginClick = () => {
+    navigate("/login");
+  };
+
+  const handleRegisterClick = () => {
     navigate("/register");
   };
 
@@ -71,23 +66,17 @@ const Header = () => {
                 </NavLink>
               </li>
               <li>
-                <button className={styles.authButton} onClick={handleLogout}>
-                  Déconnexion
-                </button>
+                <Button onClick={handleLogout}>Déconnexion</Button>
               </li>
             </>
           ) : (
             // Menu pour utilisateurs non connectés
             <>
               <li>
-                <button className={styles.authButton} onClick={handleLogin}>
-                  Connexion
-                </button>
+                <Button onClick={handleLoginClick}>Connexion</Button>
               </li>
               <li>
-                <button className={styles.authButton} onClick={handleRegister}>
-                  Inscription
-                </button>
+                <Button onClick={handleRegisterClick}>Inscription</Button>
               </li>
             </>
           )}

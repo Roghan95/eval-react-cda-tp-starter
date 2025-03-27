@@ -1,8 +1,12 @@
-import React from "react";
 import styles from "./Label.module.css";
 
-const Label = () => {
-  return <div>Label</div>;
-};
-
-export default Label;
+export default function Label({ children, className, ...props }) {
+  return (
+    <label
+      className={`${styles.label} ${className ? className : ""}`}
+      {...props}
+    >
+      {children}
+    </label>
+  );
+}
