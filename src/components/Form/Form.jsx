@@ -9,12 +9,7 @@ const Form = () => {
       <h1>Ajouter un film</h1>
       <form className={styles.form}>
         <Label htmlFor="">Titre</Label>
-        <Input
-          type=""
-          name=""
-          placeholder=""
-          required
-        ></Input>
+        <Input type="" name="" placeholder="" required></Input>
       </form>
     </>
   );
